@@ -83,7 +83,7 @@ export default function Titre() {
 
 
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', overflow: 'hidden', paddingBottom: '1rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', overflow: 'hidden', marginTop: '10rem', paddingBottom: '1rem' }}>
         <h1 className="huge-title title-word" style={{ color: 'white' }}>GESTION</h1>
         <h1 className="huge-title title-word" style={{ color: 'white' }}>INTÉGRÉE</h1>
         <h1 className="huge-title title-word" style={{ color: 'var(--oas-red)' }}>&</h1>
