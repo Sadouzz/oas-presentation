@@ -49,8 +49,8 @@ export default function GestionProjetGithub() {
             </motion.div>
 
             {/* Labels */}
-            <div style={{ position: 'absolute', left: '40px', top: '15px', fontWeight: 'bold', color: 'var(--oas-blue)' }}>main (Production)</div>
-            <div style={{ position: 'absolute', left: '100px', top: '75px', fontWeight: 'bold', color: 'var(--oas-red)' }}>dev (Intégration)</div>
+            <div style={{ position: 'absolute', left: '40px', top: '15px', fontWeight: 'bold', color: 'var(--oas-blue)' }}>main</div>
+            <div style={{ position: 'absolute', left: '100px', top: '75px', fontWeight: 'bold', color: 'var(--oas-red)' }}>develop</div>
             <div style={{ position: 'absolute', left: '160px', top: '145px', fontWeight: 'bold', color: '#10b981' }}>feature/auth</div>
           </div>
         </div>

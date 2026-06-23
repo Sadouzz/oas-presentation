@@ -18,7 +18,7 @@ export default function Conclusion() {
           </p>
         </motion.div>
 
-        <motion.div 
+        {/* <motion.div 
           style={{ display: 'flex', gap: '3rem', marginTop: '2rem' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -33,7 +33,7 @@ export default function Conclusion() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
             <AtSign color="var(--oas-red)" /> @OrientAutoService
           </div>
-        </motion.div>
+        </motion.div> */}
 
         <motion.h2 
           style={{ marginTop: '4rem', fontSize: '3rem', color: 'var(--oas-blue)' }}

@@ -111,7 +111,6 @@ export default function ChoixTech() {
                 style={{ 
                   background: 'white', padding: '3rem', borderRadius: '24px', 
                   boxShadow: `0 20px 40px ${activeTech.color}22`,
-                  borderLeft: `8px solid ${activeTech.color}`,
                   height: '100%', boxSizing: 'border-box',
                   display: 'flex', flexDirection: 'column', justifyContent: 'center'
                 }}

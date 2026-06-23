@@ -6,6 +6,11 @@ import ergo1 from '../assets/diagnosticOld/ergo1.png';
 import ergo2 from '../assets/diagnosticOld/ergo2.png';
 import bdPassword from '../assets/diagnosticOld/bdPassword.png';
 
+import agentDoc from '../assets/diagnosticOld/code/agentDoc.png';
+import agentMagasinDoc from '../assets/diagnosticOld/code/agentMagasinDoc.png';
+import chefAtelierDoc from '../assets/diagnosticOld/code/chefAtelierDoc.png';
+import superAgentDoc from '../assets/diagnosticOld/code/superAgentDoc.png';
+
 export default function Diagnostic() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [carouselIdx, setCarouselIdx] = useState(0);
@@ -37,7 +42,7 @@ export default function Diagnostic() {
       title: "Mauvaise structure du code",
       desc: "Couplage fort entre modules, maintenance difficile et risques de pannes en cascade.",
       color: "var(--oas-red)",
-      image: "/images/bad_code.png"
+      gridImages: [superAgentDoc, chefAtelierDoc, agentMagasinDoc, agentDoc]
     }
   ];
 
@@ -46,7 +51,7 @@ export default function Diagnostic() {
     if (hoveredIndex !== null && issues[hoveredIndex]?.images) {
       interval = setInterval(() => {
         setCarouselIdx((prev) => (prev + 1) % issues[hoveredIndex].images.length);
-      }, 3000);
+      }, 2000);
     } else {
       setCarouselIdx(0);
     }
@@ -70,7 +75,7 @@ export default function Diagnostic() {
               className={`bento-card magnetic ${idx === 1 || idx === 2 ? 'dark' : 'outline'}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.15 + 0.2 }}
+              transition={{ delay: idx * 0.15 }}
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
               style={{ position: 'relative' }}
@@ -145,7 +150,7 @@ export default function Diagnostic() {
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
-                    transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+                    transition={{ type: 'spring', damping: 25, stiffness: 400 }}
                     style={{
                       position: 'absolute',
                       inset: 0,
@@ -174,6 +179,40 @@ export default function Diagnostic() {
                   ))}
                 </div>
               </div>
+            ) : issues[hoveredIndex].gridImages ? (
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0, rotateX: 20 }}
+                animate={{ scale: 1, opacity: 1, rotateX: 0 }}
+                exit={{ scale: 0.8, opacity: 0, rotateX: -20 }}
+                transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+                style={{
+                  width: '90vw',
+                  height: '70vh',
+                  maxWidth: '1600px',
+                  display: 'flex',
+                  gap: '1rem',
+                  padding: '1rem',
+                  backgroundColor: 'white',
+                  borderRadius: '24px',
+                  boxShadow: '0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)'
+                }}
+              >
+                {issues[hoveredIndex].gridImages.map((img, i) => (
+                  <div 
+                    key={i} 
+                    style={{
+                      flex: 1,
+                      backgroundImage: `url(${img})`,
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                      borderRadius: '12px',
+                      border: '1px solid #e2e8f0',
+                      backgroundColor: '#f8fafc'
+                    }} 
+                  />
+                ))}
+              </motion.div>
             ) : (
               <motion.div
                 initial={{ scale: 0.8, opacity: 0, rotateX: 20 }}

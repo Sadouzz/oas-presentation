@@ -1,6 +1,6 @@
 import Slide from '../components/Slide';
 import { motion } from 'framer-motion';
-import { Monitor, AppWindow, Settings, Route, ClipboardCheck, ShieldCheck, RefreshCw, Box, Braces, Layers, Cloud, Database, ArrowUpDown } from 'lucide-react';
+import { Monitor, AppWindow, Settings, Route, ClipboardCheck, ShieldCheck, RefreshCw, Box, Braces, Layers, Cloud, Database, ArrowUpDown, ChevronRight, ChevronDown, Folder, FolderOpen, FileCode } from 'lucide-react';
 import angularLogo from '../assets/logoTechnos/angular-icon-svgrepo-com.png';
 
 export default function ArchitectureAngular() {
@@ -16,134 +16,132 @@ export default function ArchitectureAngular() {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '140px' }}>
       {icon}
       <div style={{ fontSize: '0.85rem', fontWeight: 'bold', marginTop: '14px', color: '#1e293b', lineHeight: '1.4' }}>{title}</div>
-      {/* <div style={{ fontSize: '0.75rem', color: '#475569', marginTop: '6px', lineHeight: '1.4' }}>{subtitle}</div> */}
     </div>
   );
+
+  const TreeItem = ({ name, type, depth = 0, isOpen = false }) => {
+    const isDir = type === 'dir';
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', paddingLeft: `${depth * 1.2}rem`, color: '#cccccc', fontSize: '0.85rem', fontFamily: 'Consolas, monospace', paddingBottom: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'default' }}>
+          {isDir ? (isOpen ? <ChevronDown size={14} color="#858585" /> : <ChevronRight size={14} color="#858585" />) : <span style={{ width: 14 }}></span>}
+          {isDir ? (isOpen ? <FolderOpen size={16} color="#60a5fa" /> : <Folder size={16} color="#60a5fa" />) : 
+           (name.endsWith('.html') ? <FileCode size={16} color="#e34f26" /> : <img src={angularLogo} style={{width: 14}} alt="ts"/> )}
+          <span style={{ color: isDir ? '#cccccc' : '#9cdcfe' }}>{name}</span>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <Slide title="" noDefaultHeader={true}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: '2rem', marginBottom: '1rem' }}>
         <span className="slide-number" style={{ fontFamily: 'Syne', fontSize: '2.5rem', color: 'var(--text-muted)' }}>09</span>
-        <h2>Architecture Angular</h2>
+        <h2>Architecture Angular & Structure du Projet</h2>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%', height: '80vh', maxWidth: '1100px', margin: '0 auto', fontFamily: 'Inter, sans-serif' }}>
+      <div style={{ display: 'flex', gap: '2rem', width: '100%', height: '80vh', maxWidth: '1400px', margin: '0 auto', fontFamily: 'Inter, sans-serif' }}>
         
-        {/* TIER 1: VIEW */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={{ display: 'flex', width: '100%', height: '180px' }}>
-          <div style={{ flex: 1, border: '2px solid #16a34a', borderRadius: '12px', background: '#f0fdf4', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
-            <div style={{ color: '#16a34a', fontWeight: 'bold', fontSize: '1.1rem', textTransform: 'uppercase' }}>COUCHE DE PRÉSENTATION (VIEW)</div>
-            <div style={{ fontSize: '0.9rem', color: '#334155', marginBottom: '1rem' }}>Interface utilisateur</div>
-            <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center', gap: '3rem', padding: '0 2rem' }}>
+        {/* LEFT: File Tree (VS Code) */}
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} style={{ width: '300px', height: 'fit-content', background: '#1e1e1e', borderRadius: '12px', padding: '1rem 0.5rem', overflowY: 'auto', overflowX: 'hidden', border: '1px solid #333', boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}>
+          <div style={{ color: '#858585', fontSize: '0.75rem', textTransform: 'uppercase', marginBottom: '1rem', letterSpacing: '1px', paddingLeft: '1rem' }}>Explorer : oas-front</div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <TreeItem name="oas-front" type="dir" isOpen={true} depth={0} />
+            <TreeItem name="src" type="dir" isOpen={true} depth={1} />
+            <TreeItem name="app" type="dir" isOpen={true} depth={2} />
+            
+            <TreeItem name="admin" type="dir" depth={3} />
+            <TreeItem name="auth" type="dir" depth={3} />
+            <TreeItem name="bons-commande" type="dir" isOpen={true} depth={3} />
+            <TreeItem name="bons-commande.component.html" type="file" depth={4} />
+            <TreeItem name="bons-commande.component.ts" type="file" depth={4} />
+            <TreeItem name="bons-de-sortie" type="dir" depth={3} />
+            <TreeItem name="bons-livraison" type="dir" depth={3} />
+            <TreeItem name="clients" type="dir" depth={3} />
+            <TreeItem name="core" type="dir" depth={3} />
+            <TreeItem name="dashboard" type="dir" depth={3} />
+            <TreeItem name="factures" type="dir" depth={3} />
+            <TreeItem name="fiches-atelier" type="dir" depth={3} />
+            <TreeItem name="fournisseurs" type="dir" depth={3} />
+            <TreeItem name="gestion-recu" type="dir" depth={3} />
+          </div>
+        </motion.div>
+
+        {/* RIGHT: Architecture Tiers */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+          
+          {/* TIER 1: FEATURES */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} style={{ display: 'flex', width: '100%', height: '220px' }}>
+            <div style={{ flex: 1, border: '2px solid #16a34a', borderRadius: '12px', background: '#f0fdf4', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ color: '#16a34a', fontWeight: 'bold', fontSize: '1.1rem', textTransform: 'uppercase' }}>MODULES FONCTIONNELS (FEATURES)</div>
+              <div style={{ fontSize: '0.9rem', color: '#334155', marginBottom: '1rem' }}>Dossiers indépendants : admin, bons-commande, factures...</div>
+              
+              <div style={{ display: 'flex', gap: '1rem', width: '100%', height: '100%' }}>
+                 {/* View */}
+                 <div style={{ flex: 1, border: '1px solid #86efac', background: '#dcfce7', borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <AppWindow size={32} color="#16a34a" />
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem', marginTop: '0.5rem', color: '#14532d' }}>Composants (UI)</div>
+                    <div style={{ fontSize: '0.75rem', color: '#166534', textAlign: 'center' }}>.html, .scss, .ts</div>
+                 </div>
+                 {/* Logic */}
+                 <div style={{ flex: 1, border: '1px solid #86efac', background: '#dcfce7', borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <Settings size={32} color="#16a34a" />
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem', marginTop: '0.5rem', color: '#14532d' }}>Services Locaux</div>
+                    <div style={{ fontSize: '0.75rem', color: '#166534', textAlign: 'center' }}>Logique métier</div>
+                 </div>
+                 {/* Models */}
+                 <div style={{ flex: 1, border: '1px solid #86efac', background: '#dcfce7', borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <Braces size={32} color="#16a34a" />
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem', marginTop: '0.5rem', color: '#14532d' }}>Modèles</div>
+                    <div style={{ fontSize: '0.75rem', color: '#166534', textAlign: 'center' }}>Interfaces & DTOs</div>
+                 </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ARROW 1 */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', height: '40px' }}>
+            <ArrowUpDown color="#64748b" size={24} />
+            <span style={{ fontSize: '0.75rem', fontWeight: 'bold', marginLeft: '12px', color: '#64748b' }}>Injection de dépendances & État global</span>
+          </motion.div>
+
+          {/* TIER 2: CORE */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} style={{ display: 'flex', width: '100%', height: '140px' }}>
+            <div style={{ flex: 1, border: '2px solid #2563eb', borderRadius: '12px', background: '#eff6ff', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ color: '#2563eb', fontWeight: 'bold', fontSize: '1.1rem', textTransform: 'uppercase' }}>MODULE CORE / SHARED</div>
+              <div style={{ fontSize: '0.9rem', color: '#334155', marginBottom: '1rem' }}>Dossiers transverses : core, auth</div>
+              <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', alignItems: 'center', flex: 1 }}>
+                <IconBlock icon={<ShieldCheck size={32} color="#2563eb" />} title="Guards (Auth)" />
+                <Divider color="#93c5fd" />
+                <IconBlock icon={<Route size={32} color="#2563eb" />} title="Intercepteurs HTTP" />
+                <Divider color="#93c5fd" />
+                <IconBlock icon={<RefreshCw size={32} color="#2563eb" />} title="Services Globaux" />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* ARROW 2 */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', height: '40px' }}>
+            <ArrowUpDown color="#ea580c" size={24} />
+            <span style={{ fontSize: '0.75rem', fontWeight: 'bold', marginLeft: '12px', color: '#ea580c' }}>Requêtes HTTP (HttpClient)</span>
+          </motion.div>
+
+          {/* TIER 3: BACKEND */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} style={{ display: 'flex', width: '100%', height: '100px' }}>
+            <div style={{ flex: 1, border: '2px solid #ea580c', borderRadius: '12px', background: '#fff7ed', display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '1rem', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
                <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Monitor size={80} color="#16a34a" />
-                  <img src={angularLogo} alt="Angular" style={{ position: 'absolute', top: '16px', width: '36px' }} />
+                 <Cloud size={48} color="#ea580c" />
+                 <span style={{ position: 'absolute', fontWeight: 'bold', color: '#ea580c', fontSize: '0.9rem', top: '18px' }}>API</span>
                </div>
-               <div style={{ border: '1px solid #86efac', background: '#dcfce7', borderRadius: '8px', padding: '1rem 2rem', display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                  <AppWindow size={36} color="#16a34a" />
-                  <div>
-                    <div style={{ fontWeight: 'bold', color: '#14532d', fontSize: '1rem' }}>Application Web Angular</div>
-                    <div style={{ fontSize: '0.85rem', color: '#166534', marginTop: '4px' }}>Composants Angular<br/>Templates (HTML / SCSS)</div>
-                  </div>
+               <div style={{ textAlign: 'center' }}>
+                 <div style={{ color: '#ea580c', fontWeight: 'bold', fontSize: '1.1rem', textTransform: 'uppercase' }}>API REST (SPRING BOOT)</div>
                </div>
+               <Database size={48} color="#ea580c" />
             </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', width: '180px' }}>
-            <Bracket color="#16a34a" />
-            <div style={{ fontSize: '0.9rem' }}>
-              <div style={{ color: '#16a34a', fontWeight: 'bold' }}>1ère TIERCE</div>
-              <div style={{ color: '#334155' }}>Présentation<br/>(View)</div>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* ARROW 1 */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', height: '40px', paddingRight: '180px' }}>
-          <ArrowUpDown color="#16a34a" size={24} />
-          <span style={{ fontSize: '0.85rem', fontWeight: 'bold', marginLeft: '12px', color: '#16a34a' }}>Data Binding</span>
-        </motion.div>
-
-        {/* TIER 2: VIEWMODEL */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} style={{ display: 'flex', width: '100%', height: '160px' }}>
-          <div style={{ flex: 1, border: '2px solid #2563eb', borderRadius: '12px', background: '#eff6ff', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.2rem', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
-            <div style={{ color: '#2563eb', fontWeight: 'bold', fontSize: '1.1rem', textTransform: 'uppercase' }}>COUCHE VIEWMODEL (VM)</div>
-            <div style={{ fontSize: '0.9rem', color: '#334155', marginBottom: '1rem' }}>Logique de présentation</div>
-            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', alignItems: 'center', flex: 1 }}>
-              <IconBlock icon={<Settings size={36} color="#2563eb" />} title="Services Angular" subtitle="(Appels API)" />
-              <Divider color="#93c5fd" />
-              <IconBlock icon={<Route size={36} color="#2563eb" />} title="Routage" subtitle="(Navigation)" />
-              <Divider color="#93c5fd" />
-              <IconBlock icon={<ClipboardCheck size={36} color="#2563eb" />} title="Validation" subtitle="des formulaires" />
-              <Divider color="#93c5fd" />
-              <IconBlock icon={<ShieldCheck size={36} color="#2563eb" />} title="Authentification" subtitle="JWT" />
-              <Divider color="#93c5fd" />
-              <IconBlock icon={<RefreshCw size={36} color="#2563eb" />} title="Gestion d'état" subtitle="(State Management)" />
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', width: '180px' }}>
-            <Bracket color="#2563eb" />
-            <div style={{ fontSize: '0.9rem' }}>
-              <div style={{ color: '#2563eb', fontWeight: 'bold' }}>2ème TIERCE</div>
-              <div style={{ color: '#334155' }}>Logique de<br/>présentation<br/>(ViewModel)</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* ARROW 2 */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', height: '40px', paddingRight: '180px' }}>
-          <ArrowUpDown color="#2563eb" size={24} />
-        </motion.div>
-
-        {/* TIER 3: MODEL */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ display: 'flex', width: '100%', height: '160px' }}>
-          <div style={{ flex: 1, border: '2px solid #7c3aed', borderRadius: '12px', background: '#f5f3ff', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1.2rem', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
-            <div style={{ color: '#7c3aed', fontWeight: 'bold', fontSize: '1.1rem', textTransform: 'uppercase' }}>COUCHE MODÈLE (MODEL)</div>
-            <div style={{ fontSize: '0.9rem', color: '#334155', marginBottom: '1rem' }}>Gestion des données</div>
-            <div style={{ display: 'flex', width: '100%', justifyContent: 'space-evenly', alignItems: 'center', flex: 1 }}>
-              <IconBlock icon={<Box size={36} color="#7c3aed" />} title="Modèles TypeScript" subtitle="(Classes / Types)" />
-              <Divider color="#c4b5fd" />
-              <IconBlock icon={<Braces size={36} color="#7c3aed" />} title="Interfaces" subtitle="(Contrats)" />
-              <Divider color="#c4b5fd" />
-              <IconBlock icon={<Layers size={36} color="#7c3aed" />} title="DTO" subtitle="(Data Transfer Objects)" />
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', width: '180px' }}>
-            <Bracket color="#7c3aed" />
-            <div style={{ fontSize: '0.9rem' }}>
-              <div style={{ color: '#7c3aed', fontWeight: 'bold' }}>3ème TIERCE</div>
-              <div style={{ color: '#334155' }}>Données<br/>(Model)</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* ARROW 3 */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', height: '40px', paddingRight: '180px' }}>
-          <ArrowUpDown color="#7c3aed" size={24} />
-          <span style={{ fontSize: '0.85rem', fontWeight: 'bold', marginLeft: '12px', color: '#7c3aed' }}>HTTP / HTTPS</span>
-        </motion.div>
-
-        {/* TIER 4: BACKEND */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} style={{ display: 'flex', width: '100%', height: '110px' }}>
-          <div style={{ flex: 1, border: '2px solid #ea580c', borderRadius: '12px', background: '#fff7ed', display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '1.5rem', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
-             <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-               <Cloud size={56} color="#ea580c" />
-               <span style={{ position: 'absolute', fontWeight: 'bold', color: '#ea580c', fontSize: '1rem', top: '22px' }}>API</span>
-             </div>
-             <div style={{ textAlign: 'center' }}>
-               <div style={{ color: '#ea580c', fontWeight: 'bold', fontSize: '1.2rem', textTransform: 'uppercase', marginBottom: '4px' }}>API REST (BACKEND)</div>
-               {/* <div style={{ fontSize: '0.95rem', color: '#334155', lineHeight: '1.4' }}>Services métier<br/>Base de données</div> */}
-             </div>
-             <Database size={56} color="#ea580c" />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', width: '180px' }}>
-            <Bracket color="#ea580c" />
-            <div style={{ fontSize: '0.9rem' }}>
-              <div style={{ color: '#ea580c', fontWeight: 'bold' }}>Backend</div>
-              <div style={{ color: '#334155' }}>(Services &<br/>Données)</div>
-            </div>
-          </div>
-        </motion.div>
-
+        </div>
       </div>
     </Slide>
   );
