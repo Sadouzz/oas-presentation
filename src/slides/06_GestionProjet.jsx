@@ -1,5 +1,5 @@
 import Slide from '../components/Slide';
-import { Kanban, GitBranch, Figma, Users } from 'lucide-react';
+import { Kanban, GitBranch, PenTool, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function GestionProjet() {
@@ -17,7 +17,7 @@ export default function GestionProjet() {
       color: "var(--oas-blue)"
     },
     {
-      icon: <Figma size={40} />,
+      icon: <PenTool size={40} />,
       title: "Figma",
       desc: "Maquettage UI/UX, prototypage interactif et design system avant l'intégration frontend.",
       color: "var(--oas-red)"
