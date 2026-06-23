@@ -3,33 +3,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, ShieldCheck, Terminal, Server, Activity, BugOff } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-export default function TestsValidation() {
-  
-  // Simulation of tests from PDF Tables 22 & 23
-  const testLogs = [
-    { type: 'API', text: 'POST /api/auth/signin', result: '200 OK', time: '45ms' },
-    { type: 'API', text: 'GET /api/clients', result: '200 OK', time: '112ms' },
-    { type: 'API', text: 'POST /api/clients', result: '201 CREATED', time: '89ms' },
-    { type: 'E2E', text: 'Scénario: Création de client', result: 'PASS', time: '1.2s' },
-    { type: 'E2E', text: 'Scénario: Ajout pièce au stock', result: 'PASS', time: '0.8s' },
-    { type: 'E2E', text: 'Scénario: Génération facture TTC', result: 'PASS', time: '2.1s' },
-    { type: 'SEC', text: 'Validation Token JWT (Expiré)', result: '401 UNAUTHORIZED', time: '12ms' },
-    { type: 'SEC', text: 'Injection SQL (OWASP ZAP)', result: 'BLOCKED', time: '5ms' },
-    { type: 'UNIT', text: 'Service: CalculTotalFacture', result: 'PASS', time: '2ms' },
-  ];
+// Simulation of tests from PDF Tables 22 & 23
+const testLogs = [
+  { type: 'API', text: 'POST /api/auth/signin', result: '200 OK', time: '45ms' },
+  { type: 'API', text: 'GET /api/clients', result: '200 OK', time: '112ms' },
+  { type: 'API', text: 'POST /api/clients', result: '201 CREATED', time: '89ms' },
+  { type: 'E2E', text: 'Scénario: Création de client', result: 'PASS', time: '1.2s' },
+  { type: 'E2E', text: 'Scénario: Ajout pièce au stock', result: 'PASS', time: '0.8s' },
+  { type: 'E2E', text: 'Scénario: Génération facture TTC', result: 'PASS', time: '2.1s' },
+  { type: 'SEC', text: 'Validation Token JWT (Expiré)', result: '401 UNAUTHORIZED', time: '12ms' },
+  { type: 'SEC', text: 'Injection SQL (OWASP ZAP)', result: 'BLOCKED', time: '5ms' },
+  { type: 'UNIT', text: 'Service: CalculTotalFacture', result: 'PASS', time: '2ms' },
+];
 
+export default function TestsValidation() {
   const [visibleLogs, setVisibleLogs] = useState([]);
   
   useEffect(() => {
     // Typewriter effect for the terminal logs
-    let currentIndex = 0;
     const interval = setInterval(() => {
-      if (currentIndex < testLogs.length) {
-        setVisibleLogs(prev => [...prev, testLogs[currentIndex]]);
-        currentIndex++;
-      } else {
-        clearInterval(interval);
-      }
+      setVisibleLogs(prev => {
+        if (prev.length < testLogs.length) {
+          return [...prev, testLogs[prev.length]];
+        } else {
+          clearInterval(interval);
+          return prev;
+        }
+      });
     }, 600); // Add a new log every 600ms
 
     return () => clearInterval(interval);

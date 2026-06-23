@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Deck from './components/Deck';
 import { ChevronLeft, ChevronRight, MonitorPlay } from 'lucide-react';
 import './index.css';
-import logoOas from './assets/logo_oas.jpg';
+import logoOas from './assets/logo.ico';
 
 import Titre from './slides/01_Titre';
 import PresentationContexte from './slides/02_PresentationContexte';
@@ -10,7 +10,10 @@ import Diagnostic from './slides/03_Diagnostic';
 import Problematique from './slides/04_Problematique';
 import Solution from './slides/05_Solution';
 import GestionProjet from './slides/06_GestionProjet';
+import GestionProjetTrello from './slides/06_GestionProjet_Trello';
+import GestionProjetGithub from './slides/06_GestionProjet_Github';
 import ConceptionUML from './slides/06b_ConceptionUML';
+import Architecture3Tiers from './slides/06c_Architecture3Tiers';
 import ChoixTechnologiques from './slides/07_ChoixTech';
 import ArchitectureGlobale from './slides/08_ArchitectureGlobale';
 import ArchitectureAngular from './slides/09_ArchitectureAngular';
@@ -18,6 +21,7 @@ import ArchitectureFlutter from './slides/10_ArchitectureFlutter';
 import ArchitectureSpringBoot from './slides/11_ArchitectureSpringBoot';
 import ArchitecturePostgres from './slides/12_ArchitecturePostgres';
 import DemonstrationVideo from './slides/13_DemonstrationVideo';
+import PipelineCICD from './slides/13b_PipelineCICD';
 import Deploiement from './slides/14_Deploiement';
 import TestsValidation from './slides/15_TestsValidation';
 import Conclusion from './slides/16_Conclusion';
@@ -29,17 +33,20 @@ const slides = [
   <Problematique key="4" />,
   <Solution key="5" />,
   <GestionProjet key="6" />,
+  <GestionProjetTrello key="6_trello" />,
+  <GestionProjetGithub key="6_github" />,
   <ConceptionUML key="6b" />,
-  <ChoixTechnologiques key="7" />,
-  <ArchitectureGlobale key="8" />,
+  <Architecture3Tiers key="7" />,
+  <ChoixTechnologiques key="8" />,
   <ArchitectureAngular key="9" />,
   <ArchitectureFlutter key="10" />,
   <ArchitectureSpringBoot key="11" />,
   <ArchitecturePostgres key="12" />,
+  <PipelineCICD key="14" />,
+  <Deploiement key="15" />,
+  <TestsValidation key="16" />,
   <DemonstrationVideo key="13" />,
-  <Deploiement key="14" />,
-  <TestsValidation key="15" />,
-  <Conclusion key="16" />
+  <Conclusion key="17" />
 ];
 
 function CustomCursor() {
@@ -129,7 +136,7 @@ function App() {
       
       {/* Top Bar */}
       <header className="top-bar">
-        <div className="logo-text magnetic">
+        <div className="logo-text magnetic" style={{ opacity: currentSlide === 0 ? 0 : 1, transition: 'opacity 0.5s ease', pointerEvents: currentSlide === 0 ? 'none' : 'auto' }}>
           <img src={logoOas} alt="OAS Logo" style={{ height: '40px', borderRadius: '4px' }} />
         </div>
         <div className="slide-counter">

@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Slide from '../components/Slide';
-import { Database, MonitorX, ShieldAlert, Link } from 'lucide-react';
+import { Database, MonitorX, ShieldAlert, FileCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ergo1 from '../assets/diagnosticOld/ergo1.png';
+import ergo2 from '../assets/diagnosticOld/ergo2.png';
+import bdPassword from '../assets/diagnosticOld/bdPassword.png';
 
 export default function Diagnostic() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [carouselIdx, setCarouselIdx] = useState(0);
 
   const issues = [
     {
@@ -16,26 +20,38 @@ export default function Diagnostic() {
     },
     {
       icon: <MonitorX size={40} />,
-      title: "Interfaces complexes",
-      desc: "Inventaire imprécis, ruptures fréquentes et rapports de gestion inexacts.",
+      title: "Interfaces complexes (Ergonomie)",
+      desc: "Ancienne interface peu ergonomique, navigation confuse.",
       color: "var(--oas-red)",
-      image: "/images/bad_ui.png"
+      images: [ergo1, ergo2]
     },
     {
       icon: <ShieldAlert size={40} />,
       title: "Sécurité insuffisante",
       desc: "Accès non contrôlés, absence de sauvegarde régulière et données non chiffrées.",
       color: "var(--oas-red)",
-      image: "/images/security_alert.png"
+      image: bdPassword
     },
     {
-      icon: <Link size={40} />,
-      title: "Dépendances mal gérées",
+      icon: <FileCode size={40} />,
+      title: "Mauvaise structure du code",
       desc: "Couplage fort entre modules, maintenance difficile et risques de pannes en cascade.",
       color: "var(--oas-red)",
-      image: "/images/broken_links.png"
+      image: "/images/bad_code.png"
     }
   ];
+
+  useEffect(() => {
+    let interval;
+    if (hoveredIndex !== null && issues[hoveredIndex]?.images) {
+      interval = setInterval(() => {
+        setCarouselIdx((prev) => (prev + 1) % issues[hoveredIndex].images.length);
+      }, 3000);
+    } else {
+      setCarouselIdx(0);
+    }
+    return () => clearInterval(interval);
+  }, [hoveredIndex, issues]);
 
   return (
     <Slide title="" noDefaultHeader={true}>
@@ -121,22 +137,61 @@ export default function Diagnostic() {
               {issues[hoveredIndex].title}
             </motion.h2>
 
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0, rotateX: 20 }}
-              animate={{ scale: 1, opacity: 1, rotateX: 0 }}
-              exit={{ scale: 0.8, opacity: 0, rotateX: -20 }}
-              transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-              style={{
-                width: '85vw',
-                height: '70vh',
-                maxWidth: '1400px',
-                backgroundImage: `url(${issues[hoveredIndex].image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: '24px',
-                boxShadow: '0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)'
-              }}
-            />
+            {issues[hoveredIndex].images ? (
+              <div style={{ position: 'relative', width: '85vw', maxWidth: '1400px', height: '65vh' }}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={carouselIdx}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundImage: `url(${issues[hoveredIndex].images[carouselIdx]})`,
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                      borderRadius: '24px',
+                      boxShadow: '0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)'
+                    }}
+                  />
+                </AnimatePresence>
+                
+                {/* Carousel Indicators */}
+                <div style={{ position: 'absolute', bottom: '-2rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '0.8rem' }}>
+                  {issues[hoveredIndex].images.map((_, i) => (
+                    <div 
+                      key={i} 
+                      style={{ 
+                        width: '12px', height: '12px', borderRadius: '50%', 
+                        background: i === carouselIdx ? 'white' : 'rgba(255,255,255,0.3)', 
+                        transition: 'background 0.3s',
+                        boxShadow: i === carouselIdx ? '0 0 10px rgba(255,255,255,0.8)' : 'none'
+                      }} 
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0, rotateX: 20 }}
+                animate={{ scale: 1, opacity: 1, rotateX: 0 }}
+                exit={{ scale: 0.8, opacity: 0, rotateX: -20 }}
+                transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+                style={{
+                  width: '85vw',
+                  height: '70vh',
+                  maxWidth: '1400px',
+                  backgroundImage: `url(${issues[hoveredIndex].image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  borderRadius: '24px',
+                  boxShadow: '0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)'
+                }}
+              />
+            )}
           </motion.div>
         )}
       </AnimatePresence>

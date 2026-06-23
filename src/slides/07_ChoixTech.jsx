@@ -1,31 +1,35 @@
 import Slide from '../components/Slide';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import angularLogo from '../assets/logoTechnos/angular-icon-svgrepo-com.png';
+import springLogo from '../assets/logoTechnos/spring-boot-svgrepo-com.png';
+import flutterLogo from '../assets/logoTechnos/flutter-svgrepo-com.png';
+import postgresLogo from '../assets/logoTechnos/postgresql-svgrepo-com.png';
 
 export default function ChoixTech() {
   const [activeTech, setActiveTech] = useState(null);
 
   const techs = [
     { 
-      id: 'angular', name: "Angular", desc: "Frontend Web & Admin", color: "#dd0031", initial: "A",
+      id: 'angular', name: "Angular", desc: "Frontend Web & Admin", color: "#dd0031", logo: angularLogo,
       features: ["Architecture MVVM robuste", "Data Binding Bidirectionnel", "TypeScript Fortement Typé", "Lazy Loading"],
       pos: { top: '15%', left: '15%' },
       path: "M 250 250 Q 150 250 100 100" // Curve from center to top-left
     },
     { 
-      id: 'spring', name: "Spring Boot", desc: "Backend & API REST", color: "#6db33f", initial: "S",
+      id: 'spring', name: "Spring Boot", desc: "Backend & API REST", color: "#6db33f", logo: springLogo,
       features: ["Sécurité avancée (JWT, RBAC)", "Logique Métier Centralisée", "Hautes Performances"],
       pos: { top: '15%', right: '15%' },
       path: "M 250 250 Q 350 250 400 100" // Curve from center to top-right
     },
     { 
-      id: 'flutter', name: "Flutter", desc: "App Mobile Native", color: "#02569b", initial: "F",
+      id: 'flutter', name: "Flutter", desc: "App Mobile Native", color: "#02569b", logo: flutterLogo,
       features: ["Multi-plateforme (iOS/Android)", "UI Moderne orientée Widgets", "Intégration API Fluide"],
       pos: { bottom: '15%', left: '15%' },
       path: "M 250 250 Q 150 250 100 400" // Curve from center to bottom-left
     },
     { 
-      id: 'postgres', name: "PostgreSQL", desc: "Base de données Cloud", color: "#336791", initial: "P",
+      id: 'postgres', name: "PostgreSQL", desc: "Base de données Cloud", color: "#336791", logo: postgresLogo,
       features: ["Transactions ACID", "Neon Serverless", "Requêtes complexes performantes"],
       pos: { bottom: '15%', right: '15%' },
       path: "M 250 250 Q 350 250 400 400" // Curve from center to bottom-right
@@ -65,7 +69,7 @@ export default function ChoixTech() {
             display: 'flex', justifyContent: 'center', alignItems: 'center',
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)', zIndex: 10, border: '4px solid var(--oas-blue)'
           }}>
-            <img src="/src/assets/logo_oas.jpg" alt="Logo OAS" style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'contain' }} />
+            <img src="/src/assets/logo.ico" alt="Logo OAS" style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'contain' }} />
           </div>
 
           {/* Tech Nodes (Spokes) */}
@@ -80,17 +84,16 @@ export default function ChoixTech() {
               style={{ 
                 position: 'absolute', ...t.pos, transform: 'translate(-50%, -50%)',
                 width: '100px', height: '100px', borderRadius: '50%', 
-                background: t.color, color: 'white', 
+                background: 'white',
                 display: 'flex', justifyContent: 'center', alignItems: 'center',
-                fontSize: '3rem', fontWeight: 'bold', fontFamily: 'Outfit',
                 cursor: 'pointer', boxShadow: `0 10px 20px ${t.color}66`,
-                border: '4px solid white', zIndex: 10,
-                opacity: activeTech && activeTech.id !== t.id ? 0.3 : 1,
+                border: `4px solid ${t.color}`, zIndex: 10,
+                opacity: activeTech && activeTech.id !== t.id ? 0.4 : 1,
                 transition: 'opacity 0.3s'
               }}
               whileHover={{ scale: 1.15 }}
             >
-              {t.initial}
+              <img src={t.logo} alt={t.name} style={{ width: '55px', height: '55px', objectFit: 'contain' }} />
             </motion.div>
           ))}
         </div>
