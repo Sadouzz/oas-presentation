@@ -1,6 +1,7 @@
 import Slide from '../components/Slide';
 import { motion } from 'framer-motion';
 import { PlayCircle } from 'lucide-react';
+import vid from '../assets/vid.mp4';
 
 export default function DemonstrationVideo() {
   return (
@@ -36,13 +37,23 @@ export default function DemonstrationVideo() {
           transition={{ type: "spring", stiffness: 100 }}
           whileHover={{ scale: 1.02 }}
         >
-          {/* PLACEHOLDER FOR THE USER'S VIDEO */}
-          {/* Once the user has the video, they can replace this div with a <video> tag */}
-          <div style={{ textAlign: 'center', color: 'white' }}>
-            <PlayCircle size={64} color="var(--oas-red)" style={{ marginBottom: '1rem' }} />
-            <h3>Cliquez pour lancer la vidéo (Placeholder)</h3>
-            <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem' }}>Intégrez votre vidéo MP4 ici</p>
-          </div>
+          {/* Vidéo de la démonstration */}
+          <video 
+            src={vid} 
+            controls
+            style={{ width: '100%', height: '100%', borderRadius: '14px', objectFit: 'cover' }}
+            onClick={(e) => {
+              const video = e.target;
+              if (video.requestFullscreen) {
+                video.requestFullscreen();
+              } else if (video.webkitRequestFullscreen) { /* Safari */
+                video.webkitRequestFullscreen();
+              } else if (video.msRequestFullscreen) { /* IE11 */
+                video.msRequestFullscreen();
+              }
+              video.play();
+            }}
+          />
         </motion.div>
 
       </div>

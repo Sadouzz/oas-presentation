@@ -1,38 +1,24 @@
+import React from 'react';
 import Slide from '../components/Slide';
 import { motion } from 'framer-motion';
-import { Server, Shield, Database, Box, LineChart, Activity, Globe, FileKey, HardDrive, Users } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
-import springLogo from '../assets/logoTechnos/spring-boot-svgrepo-com.png';
-import postgresLogo from '../assets/logoTechnos/postgresql-svgrepo-com.png';
+import { Server, Database, Box, Users, Activity, Share2, Globe } from 'lucide-react';
+import { FaGithub, FaDocker } from 'react-icons/fa';
+import { SiGithubactions, SiNginx, SiSpringboot, SiAngular, SiPrometheus, SiGrafana, SiPostgresql } from 'react-icons/si';
 
 export default function Deploiement() {
-  const NodeCard = ({ title, icon, subtitle, border, highlight }) => (
-    <div style={{ 
-      background: 'white', borderRadius: '12px', padding: '12px', 
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', 
-      boxShadow: highlight ? '0 8px 16px rgba(0,0,0,0.1)' : '0 2px 4px rgba(0,0,0,0.05)', 
-      border: `1px solid ${border || '#e2e8f0'}`, 
-      width: '100%', height: '100%', zIndex: 10, position: 'relative' 
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: '#1e293b', fontSize: '0.9rem' }}>
-        {icon} {title}
-      </div>
-      {subtitle && <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '8px' }}>{subtitle}</div>}
-    </div>
-  );
 
-  const BoxContainer = ({ top, left, width, height, title, icon, color, bg, children }) => (
-    <div style={{ position: 'absolute', top, left, width, height, border: `2px solid ${color}`, borderRadius: '12px', background: bg, zIndex: 2 }}>
+  const BoxContainer = ({ top, left, width, height, title, titleColor, color, bg, dashed, children }) => (
+    <div style={{ position: 'absolute', top, left, width, height, border: `2px ${dashed ? 'dashed' : 'solid'} ${color}`, borderRadius: '8px', background: bg || 'white', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {title && (
-        <div style={{ position: 'absolute', top: -14, left: 24, background: bg === 'transparent' ? 'white' : bg, padding: '0 12px', color: color, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.95rem', borderRadius: '4px' }}>
-          {icon} {title}
+        <div style={{ position: 'absolute', top: -12, left: 16, background: bg === 'transparent' ? 'white' : (bg || 'white'), padding: '0 8px', color: titleColor || color, fontWeight: 'bold', fontSize: '0.85rem', borderRadius: '4px' }}>
+          {title}
         </div>
       )}
       {children}
     </div>
   );
 
-  const Path = ({ d, color, label, labelX, labelY, dashed = true, markerEnd = true }) => {
+  const Path = ({ d, color, dashed = false, markerEnd = true }) => {
     const colorId = color.replace('#', '');
     return (
       <g>
@@ -41,15 +27,6 @@ export default function Deploiement() {
           d={d} fill="none" stroke={color} strokeWidth="2" strokeDasharray={dashed ? "6,6" : "none"}
           markerEnd={markerEnd ? `url(#arrow-${colorId})` : "none"}
         />
-        {label && (
-          <motion.text 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-            x={labelX} y={labelY} fill={color} fontSize="12" fontWeight="bold" textAnchor="middle"
-            style={{ background: 'white' }}
-          >
-            {label}
-          </motion.text>
-        )}
       </g>
     );
   };
@@ -64,109 +41,207 @@ export default function Deploiement() {
         </div>
 
         {/* Scalable Container for exact pixel mapping */}
-        <div style={{ flex: 1, position: 'relative', width: '100%', maxWidth: '1200px', margin: '0 auto', background: 'white', borderRadius: '16px', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, transform: 'scale(1)', transformOrigin: 'top left', width: '1100px', height: '650px' }}>
+        <div style={{ flex: 1, position: 'relative', width: '100%', maxWidth: '100%', margin: '0 auto', background: 'white', borderRadius: '16px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', transform: 'scale(1.1)', transformOrigin: 'center center', width: '1100px', height: '650px' }}>
             
             {/* SVG OVERLAY FOR LINES */}
             <svg width="1100" height="650" style={{ position: 'absolute', inset: 0, zIndex: 5, pointerEvents: 'none' }}>
               <defs>
+                <marker id="arrow-1e293b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#1e293b" /></marker>
                 <marker id="arrow-475569" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#475569" /></marker>
-                <marker id="arrow-7c3aed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#7c3aed" /></marker>
-                <marker id="arrow-10b981" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#10b981" /></marker>
+                <marker id="arrow-3b82f6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#3b82f6" /></marker>
+                <marker id="arrow-64748b" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#64748b" /></marker>
               </defs>
 
-              {/* Internet to Nginx */}
-              <Path d="M 520 70 L 520 160 L 310 160 L 310 240" color="#475569" label="HTTP/HTTPS" labelX="415" labelY="150" />
-              {/* Internet to Grafana */}
-              <Path d="M 580 70 L 580 180 L 680 180 L 680 250 L 660 250" color="#475569" label="Ports 9091, 3000" labelX="630" labelY="170" />
-
-              {/* Proxy lines */}
-              <Path d="M 400 280 L 475 280" color="#7c3aed" />
-              <Path d="M 310 320 L 310 355" color="#7c3aed" />
-              <Path d="M 400 300 L 440 300 L 440 380 L 475 380" color="#7c3aed" label="Reverse Proxy" labelX="430" labelY="345" />
-
-              {/* Metrics */}
-              <Path d="M 370 410 L 520 410 L 520 325" color="#10b981" label="Lecture métriques" labelX="460" labelY="400" />
-
-              {/* Certs */}
-              <Path d="M 110 395 L 110 585 L 135 585" color="#10b981" label="Écriture certificats" labelX="110" labelY="490" />
-              <Path d="M 220 280 L 160 280 L 160 550 L 220 550" color="#10b981" label="Lecture certificats" labelX="160" labelY="450" />
-
-              {/* Data Storage */}
-              <Path d="M 310 440 L 310 510 L 400 510 L 400 555" color="#7c3aed" label="Stockage" labelX="355" labelY="500" />
-              <Path d="M 570 320 L 650 320 L 650 510 L 580 510 L 580 555" color="#7c3aed" />
-              <Path d="M 570 440 L 570 510" color="#7c3aed" label="Stockage" labelX="610" labelY="480" />
-
-              {/* External Connections */}
-              <Path d="M 660 400 L 850 400 L 850 245" color="#7c3aed" label="Connexion JDBC" labelX="750" labelY="390" />
+              {/* 1 to 2 */}
+              <Path d="M 220 70 L 260 70" color="#1e293b" />
               
-              {/* Image Pulling */}
-              <Path d="M 940 245 L 940 450 L 660 450" color="#10b981" />
-              <Path d="M 720 200 L 310 200 L 310 235" color="#10b981" />
-              <Path d="M 900 150 L 720 150 L 720 400 L 660 400" color="#10b981" label="Pull images : latest" labelX="810" labelY="140" />
+              {/* 2 to 3 */}
+              <Path d="M 440 70 L 480 70" color="#1e293b" />
 
-              {/* Junction Dots */}
-              <circle cx="720" cy="200" r="5" fill="#10b981" />
-              <circle cx="720" cy="400" r="5" fill="#10b981" />
+              {/* 3 to Conteneurs */}
+              <Path d="M 580 120 L 580 250" color="#1e293b" />
+
+              {/* Users to Nginx */}
+              <Path d="M 160 360 L 220 360" color="#1e293b" />
+              <motion.text initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }} x="190" y="352" fill="#2563eb" fontSize="13" fontWeight="bold" textAnchor="middle">
+                oas-test.de
+              </motion.text>
+
+              {/* Nginx to Backend */}
+              <Path d="M 400 320 L 420 320 L 420 340 L 460 340" color="#1e293b" />
+              {/* Nginx to Frontend */}
+              <Path d="M 400 420 L 420 420 L 420 450 L 460 450" color="#1e293b" />
+
+              {/* Backend to DB */}
+              <Path d="M 680 340 L 760 340" color="#1e293b" />
+              
+              {/* Backend to Exporter */}
+              <Path d="M 680 370 L 710 370 L 710 490 L 760 490" color="#475569" dashed={true} />
+
+              {/* DB to Prometheus */}
+              <Path d="M 860 310 L 860 150" color="#475569" dashed={true} />
+              
+              {/* Exporter to Grafana */}
+              <Path d="M 960 490 L 1020 490 L 1020 150" color="#475569" dashed={true} />
+
             </svg>
 
             {/* --- HTML NODES --- */}
 
-            {/* Internet */}
-            <div style={{ position: 'absolute', top: 20, left: 450, width: 200, height: 50, zIndex: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: '#1e3a8a', fontSize: '1.2rem' }}>
-              <Users size={28} /> Internet / Clients
-            </div>
+            {/* TOP ROW */}
+            {/* Box 1: CODE SOURCE */}
+            <BoxContainer top={20} left={40} width={180} height={100} title="1. CODE SOURCE" titleColor="#2563eb" color="#3b82f6" bg="white">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '12px', padding: '0 10px' }}>
+                <FaGithub size={40} color="#1e293b" />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontWeight: 'bold', fontSize: '1rem', color: '#1e293b' }}>GitHub</span>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.2' }}>Repository<br/>(Code source)</span>
+                </div>
+              </div>
+            </BoxContainer>
 
-            {/* INFRASTRUCTURE DE PRODUCTION */}
-            <div style={{ position: 'absolute', top: 100, left: 20, width: 720, height: 530, border: '2px solid #1e3a8a', borderRadius: '12px', background: 'transparent', zIndex: 1 }}>
-              <div style={{ padding: '12px 20px', fontWeight: 'bold', color: '#1e3a8a', fontSize: '1.1rem' }}>INFRASTRUCTURE DE PRODUCTION</div>
-              <div style={{ padding: '0 20px', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', color: '#334155' }}>
-                <Server size={20} /> Serveur de production
+            {/* Box 2: CI/CD */}
+            <BoxContainer top={20} left={260} width={180} height={100} title="2. CI/CD" titleColor="#16a34a" color="#22c55e" bg="white">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '12px', padding: '0 10px' }}>
+                <SiGithubactions size={36} color="#2563eb" />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontWeight: 'bold', fontSize: '0.95rem', color: '#1e293b' }}>GitHub Actions</span>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.2' }}>Build, Test<br/>& Push image</span>
+                </div>
+              </div>
+            </BoxContainer>
+
+            {/* Box 3: REGISTRE D'IMAGES */}
+            <BoxContainer top={20} left={480} width={220} height={100} title="3. REGISTRE D'IMAGES" titleColor="#7e22ce" color="#a855f7" bg="white">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '12px', padding: '0 10px' }}>
+                <div style={{ background: '#7e22ce', padding: '8px', borderRadius: '8px' }}>
+                  <Box size={28} color="white" />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#1e293b', lineHeight: '1.1' }}>GitHub Container<br/>Registry (GHCR)</span>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.2', marginTop: '4px' }}>Stockage des images<br/>Docker</span>
+                </div>
+              </div>
+            </BoxContainer>
+
+            {/* Box 5: OBSERVABILITÉ */}
+            <BoxContainer top={20} left={740} width={330} height={130} title={<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>5. OBSERVABILITÉ & SUPERVISION <span style={{background: '#ffedd5', color: '#ea580c', border: '1px solid #ea580c', padding: '2px 6px', borderRadius: '4px', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '6px'}}><Globe size={10} /> oas-network</span></div>} titleColor="#ea580c" color="#f97316" bg="#fffaf5">
+              <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', width: '100%', height: '100%', paddingTop: '10px' }}>
+                {/* Prometheus */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <div style={{ background: '#ea580c', borderRadius: '50%', padding: '12px', marginBottom: '8px' }}>
+                    <SiPrometheus size={24} color="white" />
+                  </div>
+                  <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#1e293b' }}>Prometheus</span>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Collecte des métriques</span>
+                </div>
+                {/* Grafana */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <SiGrafana size={48} color="#ea580c" style={{ marginBottom: '8px' }} />
+                  <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#1e293b' }}>Grafana</span>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Tableaux de bord<br/>& Visualisation</span>
+                </div>
+              </div>
+            </BoxContainer>
+
+            {/* BOTTOM ROW */}
+
+            {/* UTILISATEURS */}
+            <BoxContainer top={280} left={20} width={140} height={160} title="" color="#93c5fd" bg="#eff6ff">
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '10px', textAlign: 'center' }}>
+                <Users size={32} color="#1d4ed8" style={{ marginBottom: '8px' }} />
+                <span style={{ fontWeight: 'bold', fontSize: '0.95rem', color: '#1d4ed8', marginBottom: '12px' }}>UTILISATEURS</span>
+                <span style={{ fontSize: '0.8rem', color: '#334155', marginBottom: '8px', lineHeight: '1.2' }}>Navigateur Web<br/>(Angular)</span>
+                <span style={{ fontSize: '0.8rem', color: '#334155', lineHeight: '1.2' }}>Application Mobile<br/>(Flutter)</span>
+              </div>
+            </BoxContainer>
+
+            {/* SERVEUR VPS */}
+            <BoxContainer top={190} left={190} width={530} height={350} title="" color="#3b82f6" dashed={true} bg="transparent">
+              <div style={{ position: 'absolute', top: -14, left: 16, background: 'white', padding: '0 8px', color: '#1d4ed8', fontWeight: 'bold', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Server size={16} /> 4. SERVEUR VPS (PRODUCTION)
               </div>
 
-              {/* Docker Host */}
-              <BoxContainer top={80} left={20} width={680} height={430} title="Docker Host" icon={<Box size={16} />} color="#3b82f6" bg="#f8fafc">
-                
-                {/* Certbot */}
-                <div style={{ position: 'absolute', top: 245, left: 20, width: 140, height: 70 }}>
-                  <NodeCard title="oas-certbot" icon={<Shield size={20} color="#10b981" />} subtitle="Renouvellement SSL" />
+              {/* Nginx */}
+              <BoxContainer top={40} left={30} width={180} height={280} title="" color="#22c55e" bg="#f0fdf4">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 10px', width: '100%', height: '100%' }}>
+                  <div style={{ background: '#16a34a', padding: '12px', borderRadius: '8px', marginBottom: '12px' }}>
+                    <SiNginx size={32} color="white" />
+                  </div>
+                  <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#1e293b' }}>Nginx</span>
+                  <span style={{ fontSize: '0.8rem', color: '#475569', textAlign: 'center', marginBottom: '16px', lineHeight: '1.2' }}>Reverse Proxy<br/>& Serveur web</span>
+                  
+                  <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '0.75rem', color: '#1e293b', width: '100%' }}>
+                    <li style={{ marginBottom: '4px' }}>HTTPS (SSL/TLS)</li>
+                    <li style={{ marginBottom: '4px' }}>Redirection</li>
+                    <li style={{ marginBottom: '4px' }}>Routage</li>
+                    <li>Fichiers statiques<br/>(Angular SPA)</li>
+                  </ul>
                 </div>
+              </BoxContainer>
 
-                {/* Réseau Docker */}
-                <BoxContainer top={40} left={160} width={500} height={260} title="Réseau Docker (oas-network)" icon={<Globe size={16} />} color="#60a5fa" bg="#eff6ff">
-                  <div style={{ position: 'absolute', top: 40, left: 40, width: 180, height: 80 }}>
-                    <NodeCard title="oas-nginx" icon={<div style={{ background: '#10b981', color: 'white', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>N</div>} subtitle="Ports : 80, 443" />
-                  </div>
-                  <div style={{ position: 'absolute', top: 40, left: 300, width: 180, height: 80 }}>
-                    <NodeCard title="oas-grafana" icon={<LineChart size={20} color="#f59e0b" />} subtitle="Port : 3000" />
-                  </div>
-                  <div style={{ position: 'absolute', top: 160, left: 40, width: 180, height: 80 }}>
-                    <NodeCard title="oas-prometheus" icon={<Activity size={20} color="#ef4444" />} subtitle="Port : 9091" />
-                  </div>
-                  <div style={{ position: 'absolute', top: 160, left: 300, width: 180, height: 80 }}>
-                    <NodeCard title="oas-backend" icon={<img src={springLogo} alt="Spring" style={{ width: 20 }} />} subtitle="Spring Boot API" />
+              {/* CONTENEURS */}
+              <BoxContainer top={40} left={250} width={250} height={280} title={<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}><Globe size={14} /> RÉSEAU INTERNE (oas-network)</div>} titleColor="#2563eb" color="#93c5fd" bg="#eff6ff">
+                
+                {/* API Backend */}
+                <BoxContainer top={40} left={15} width={220} height={90} title="" color="#3b82f6" bg="white">
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '10px', width: '100%', height: '100%', position: 'relative' }}>
+                    <div style={{ padding: '8px', marginRight: '10px' }}>
+                      <SiSpringboot size={36} color="#6db33f" />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#1d4ed8' }}>API BACKEND</span>
+                      <span style={{ fontSize: '0.75rem', color: '#475569' }}>Spring Boot</span>
+                      <span style={{ fontSize: '0.7rem', color: '#64748b' }}>(Application)</span>
+                    </div>
+                    <div style={{ position: 'absolute', bottom: 6, right: 6 }}>
+                      <FaDocker size={18} color="#2563eb" />
+                    </div>
                   </div>
                 </BoxContainer>
 
-                {/* Volumes Docker */}
-                <BoxContainer top={350} left={100} width={560} height={60} title="Volumes Docker" icon={<HardDrive size={16} />} color="#60a5fa" bg="#eff6ff">
-                  <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', height: '100%', paddingTop: '10px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 'bold', color: '#1e3a8a' }}><Database size={16} color="#3b82f6" /> Certificats SSL</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 'bold', color: '#1e3a8a' }}><Database size={16} color="#3b82f6" /> prometheus_data</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 'bold', color: '#1e3a8a' }}><Database size={16} color="#3b82f6" /> grafana_data</div>
+                {/* Frontend */}
+                <BoxContainer top={160} left={15} width={220} height={90} title="" color="#22c55e" bg="white">
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '10px', width: '100%', height: '100%', position: 'relative' }}>
+                    <div style={{ padding: '8px', marginRight: '10px' }}>
+                      <SiAngular size={36} color="#dd0031" />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#16a34a' }}>FRONTEND</span>
+                      <span style={{ fontSize: '0.75rem', color: '#475569' }}>Angular</span>
+                      <span style={{ fontSize: '0.7rem', color: '#64748b' }}>(Application)</span>
+                    </div>
+                    <div style={{ position: 'absolute', bottom: 6, right: 6 }}>
+                      <FaDocker size={18} color="#2563eb" />
+                    </div>
                   </div>
                 </BoxContainer>
 
               </BoxContainer>
-            </div>
 
-            {/* SERVICES EXTERNES */}
-            <BoxContainer top={100} left={760} width={320} height={180} title="SERVICES EXTERNES" color="#7c3aed" bg="#f5f3ff">
-              <div style={{ position: 'absolute', top: 40, left: 20, width: 130, height: 110 }}>
-                <NodeCard title="Neon PostgreSQL" icon={<img src={postgresLogo} alt="PG" style={{ width: 32, marginBottom: '8px' }} />} />
+            </BoxContainer>
+
+            {/* BASE DE DONNÉES */}
+            <BoxContainer top={260} left={760} width={200} height={120} title="" color="#d97706" bg="#fffbeb">
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', padding: '10px', textAlign: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                  <Database size={20} color="#d97706" />
+                  <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#1e293b' }}>BASE DE DONNÉES</span>
+                </div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#334155', marginBottom: '4px' }}>PostgreSQL (Neon)</span>
+                <span style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: '1.2' }}>Base de données managée<br/>dans le cloud</span>
               </div>
-              <div style={{ position: 'absolute', top: 40, left: 170, width: 130, height: 110 }}>
-                <NodeCard title={<div style={{ textAlign: 'center', lineHeight: '1.2' }}>GitHub Container<br/>Registry (ghcr.io)</div>} icon={<FaGithub size={32} color="#1e293b" style={{ marginBottom: '8px' }} />} />
+            </BoxContainer>
+
+            {/* EXPORTER */}
+            <BoxContainer top={420} left={760} width={200} height={90} title="" color="#3b82f6" bg="#eff6ff">
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', padding: '10px', textAlign: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                  <Share2 size={18} color="#2563eb" />
+                  <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#1d4ed8' }}>EXPORTER</span>
+                </div>
+                <span style={{ fontSize: '0.8rem', color: '#334155' }}>Spring Boot Actuator</span>
               </div>
             </BoxContainer>
 
